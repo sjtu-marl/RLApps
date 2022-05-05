@@ -8,7 +8,7 @@ from ray.rllib.env.multi_agent_env import MultiAgentEnv
 from ray.rllib.policy import Policy
 from ray.rllib.utils.typing import MultiAgentDict, AgentID
 
-from rlapps.rl_apps.psro.poker_utils import softmax
+from rlapps.apps.psro.poker_utils import softmax
 from rlapps.utils.strategy_spec import StrategySpec
 from rlapps.envs.valid_actions_multi_agent_env import ValidActionsMultiAgentEnv
 

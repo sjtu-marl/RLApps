@@ -1,0 +1,121 @@
+{
+  "adam_epsilon": 1e-08,
+  "batch_mode": "truncate_episodes",
+  "buffer_size": 200000,
+  "callbacks": "<class '__main__.train_psro_best_response.<locals>.P2SROPreAndPostEpisodeCallbacks'>",
+  "compress_observations": false,
+  "double_q": true,
+  "dueling": false,
+  "env": "<class 'rlapps.envs.poker_multi_agent_env.PokerMultiAgentEnv'>",
+  "env_config": {
+    "fixed_players": true,
+    "version": "kuhn_poker"
+  },
+  "evaluation_config": {
+    "explore": false
+  },
+  "exploration_config": {
+    "epsilon_timesteps": 100000,
+    "final_epsilon": 0.001,
+    "initial_epsilon": 0.2,
+    "type": "<class 'rlapps.rllib_tools.valid_actions_epsilon_greedy.ValidActionsEpsilonGreedy'>"
+  },
+  "explore": true,
+  "final_prioritized_replay_beta": 0.0,
+  "framework": "torch",
+  "gamma": 1.0,
+  "grad_clip": null,
+  "hiddens": [
+    256
+  ],
+  "learning_starts": 16000,
+  "lr": 0.01,
+  "lr_schedule": null,
+  "metrics_num_episodes_for_smoothing": 1000,
+  "min_time_s_per_reporting": 0,
+  "model": {
+    "_disable_action_flattening": false,
+    "_disable_preprocessor_api": false,
+    "_time_major": false,
+    "_use_default_native_models": false,
+    "attention_dim": 64,
+    "attention_head_dim": 32,
+    "attention_init_gru_gate_bias": 2.0,
+    "attention_memory_inference": 50,
+    "attention_memory_training": 50,
+    "attention_num_heads": 1,
+    "attention_num_transformer_units": 1,
+    "attention_position_wise_mlp_dim": 32,
+    "attention_use_n_prev_actions": 0,
+    "attention_use_n_prev_rewards": 0,
+    "conv_activation": "relu",
+    "conv_filters": null,
+    "custom_action_dist": null,
+    "custom_model": null,
+    "custom_model_config": {},
+    "custom_preprocessor": null,
+    "dim": 84,
+    "fcnet_activation": "relu",
+    "fcnet_hiddens": [
+      128
+    ],
+    "framestack": true,
+    "free_log_std": false,
+    "grayscale": false,
+    "lstm_cell_size": 256,
+    "lstm_use_prev_action": false,
+    "lstm_use_prev_action_reward": -1,
+    "lstm_use_prev_reward": false,
+    "max_seq_len": 20,
+    "no_final_linear": false,
+    "post_fcnet_activation": "relu",
+    "post_fcnet_hiddens": [],
+    "use_attention": false,
+    "use_lstm": false,
+    "vf_share_layers": true,
+    "zero_mean": true
+  },
+  "multiagent": {
+    "policies": {
+      "best_response": [
+        "<class 'ray.rllib.policy.policy_template.SimpleQPolicy'>",
+        "Box([0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.], [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.], (11,), float32)",
+        "Discrete(2)",
+        {}
+      ],
+      "metanash": [
+        "<class 'ray.rllib.policy.policy_template.SimpleQPolicy'>",
+        "Box([0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.], [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.], (11,), float32)",
+        "Discrete(2)",
+        {
+          "explore": false
+        }
+      ]
+    },
+    "policies_to_train": [
+      "best_response"
+    ],
+    "policy_mapping_fn": "<function train_psro_best_response.<locals>.select_policy at 0x7fa669a4a550>"
+  },
+  "n_step": 1,
+  "noisy": false,
+  "num_atoms": 1,
+  "num_envs_per_worker": 1,
+  "num_gpus": 0.0,
+  "num_gpus_per_worker": 0.0,
+  "num_workers": 4,
+  "prioritized_replay": false,
+  "prioritized_replay_alpha": 0.0,
+  "prioritized_replay_beta": 0.0,
+  "prioritized_replay_beta_annealing_timesteps": 20000,
+  "prioritized_replay_eps": 0.0,
+  "rollout_fragment_length": 256,
+  "sigma0": 0.5,
+  "target_network_update_freq": 10000,
+  "timesteps_per_iteration": 0,
+  "train_batch_size": 4096,
+  "training_intensity": null,
+  "v_max": 10.0,
+  "v_min": -10.0,
+  "worker_side_prioritization": false
+}

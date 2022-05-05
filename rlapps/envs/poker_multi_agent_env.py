@@ -1,7 +1,9 @@
 import copy
 import random
 
+import ray
 import numpy as np
+
 from gym.spaces import Discrete, Box
 from open_spiel.python.rl_environment import TimeStep, Environment, StepType
 from pyspiel import SpielError
@@ -84,6 +86,7 @@ class PokerMultiAgentEnv(ValidActionsMultiAgentEnv):
             base_config=DEFAULT_CONFIG, extra_config=env_config if env_config else {}
         )
         self._fixed_players = env_config["fixed_players"]
+        self._agent_ids = set([0, 1])
         self.game_version = env_config["version"]
 
         if (
@@ -248,6 +251,9 @@ class PokerMultiAgentEnv(ValidActionsMultiAgentEnv):
                 "__all__" (required) is used to indicate env termination.
             infos (dict): Optional info values for each agent id.
         """
+
+        if len(action_dict) == 0:
+            return {}, {}, {}, {}
         curr_player_id = self.curr_time_step.observations["current_player"]
         legal_actions = self.curr_time_step.observations["legal_actions"][
             curr_player_id

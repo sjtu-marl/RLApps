@@ -10,7 +10,7 @@ from ray.rllib.models.torch.torch_action_dist import TorchCategorical
 from ray.rllib.models.torch.torch_action_dist import TorchDistributionWrapper
 from ray.rllib.policy.policy import Policy
 from ray.rllib.policy.sample_batch import SampleBatch
-from ray.rllib.policy.torch_policy_template import build_torch_policy
+from ray.rllib.policy import build_policy_class
 from ray.rllib.utils.error import UnsupportedSpaceException
 from ray.rllib.utils.framework import try_import_torch
 from ray.rllib.utils.schedules import ConstantSchedule, PiecewiseSchedule
@@ -203,8 +203,9 @@ def setup_mixins(policy, obs_space, action_space, config):
     ManualLearningRateSchedule.__init__(policy, config["lr"], config["lr_schedule"])
 
 
-NFSPTorchAveragePolicy = build_torch_policy(
+NFSPTorchAveragePolicy = build_policy_class(
     name="NFSPAveragePolicy",
+    framework="torch",
     extra_action_out_fn=behaviour_logits_fetches,
     loss_fn=build_supervised_learning_loss,
     get_default_config=lambda: rlapps.algos.nfsp_rllib.nfsp.DEFAULT_CONFIG,

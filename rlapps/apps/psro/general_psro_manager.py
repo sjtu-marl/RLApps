@@ -71,7 +71,11 @@ def launch_manager(
         manager_metadata={"ray_head_address": ray_head_address},
         get_manager_logger=get_manager_logger,
     )
-    print(f"Launched P2SRO Manager with server.")
+    print(
+        "Launched P2SRO Manager with server. ray_head_address={}".format(
+            ray_head_address
+        )
+    )
 
     if include_evals:
         launch_evals(

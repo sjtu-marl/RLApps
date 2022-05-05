@@ -154,10 +154,10 @@ if __name__ == "__main__":
         "num_workers": 4,
         "num_envs_per_worker": 32,
         "num_gpus_per_worker": float(os.getenv("WORKER_GPU_NUM", 0.0)),
-        "metrics_smoothing_episodes": 5000,
+        "metrics_num_episodes_for_smoothing": 5000,
     }
     hyperparams = merge_dicts(hyperparams, avg_pol_scenario.get_trainer_config(tmp_env))
-    hyperparams["metrics_smoothing_episodes"] = 5000
+    hyperparams["metrics_num_episodes_for_smoothing"] = 5000
 
     # search = HyperOptSearch(metric="br_reward_mean", mode="max", n_initial_points=20)
 

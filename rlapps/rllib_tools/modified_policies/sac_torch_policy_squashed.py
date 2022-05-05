@@ -20,7 +20,7 @@ from ray.rllib.models.modelv2 import ModelV2
 from ray.rllib.models.torch.torch_action_dist import TorchDistributionWrapper
 from ray.rllib.policy.policy import Policy
 from ray.rllib.policy.sample_batch import SampleBatch
-from ray.rllib.policy.torch_policy_template import build_torch_policy
+from ray.rllib.policy import build_policy_class
 from ray.rllib.models.torch.torch_action_dist import (
     TorchCategorical,
     TorchSquashedGaussian,
@@ -544,8 +544,9 @@ def setup_late_mixins(
 
 # Build a child class of `TorchPolicy`, given the custom functions defined
 # above.
-SACTorchPolicySquashed = build_torch_policy(
+SACTorchPolicySquashed = build_policy_class(
     name="SACTorchPolicy",
+    framework="torch",
     loss_fn=actor_critic_loss,
     get_default_config=lambda: ray.rllib.agents.sac.sac.DEFAULT_CONFIG,
     stats_fn=stats,

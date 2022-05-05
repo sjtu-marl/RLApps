@@ -10,7 +10,7 @@ import numpy as np
 import ray  # noqa F401
 import psutil  # noqa E402
 
-from ray.rllib.execution.replay_buffer import LocalReplayBuffer
+from ray.rllib.execution.buffers.replay_buffer import ReplayBuffer
 from ray.rllib.policy.sample_batch import (
     SampleBatch,
     MultiAgentBatch,
@@ -19,7 +19,7 @@ from ray.rllib.policy.sample_batch import (
 from ray.rllib.utils.annotations import DeveloperAPI
 from ray.rllib.utils.timer import TimerStat
 from ray.rllib.utils.typing import SampleBatchType
-from ray.rllib.utils.window_stat import WindowStat
+from ray.rllib.utils.metrics.window_stat import WindowStat
 from ray.util.debug import log_once
 from ray.util.iter import ParallelIteratorWorker
 
@@ -149,7 +149,7 @@ class ReservoirReplayBuffer:
 _local_replay_buffer = None
 
 
-class LocalReservoirReplayBuffer(LocalReplayBuffer):
+class LocalReservoirReplayBuffer(ReplayBuffer):
     """A replay buffer shard.
 
     Ray actors are single-threaded, so for scalability multiple replay actors

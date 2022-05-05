@@ -28,20 +28,21 @@ def init_ray_for_scenario(
     if include_dashboard and not dashboard_port:
         dashboard_port = find_free_port()
 
-    address_info = ray.init(
-        address=head_address,
-        num_cpus=scenario.ray_cluster_cpus if head_address is None else None,
-        num_gpus=scenario.ray_cluster_gpus if head_address is None else None,
-        object_store_memory=object_store_memory_bytes,
-        _lru_evict=bool(head_address is None),
-        local_mode=False,
-        include_dashboard=include_dashboard,
-        dashboard_host=os.getenv("RAY_DASHBOARD_HOST", None),
-        dashboard_port=dashboard_port,
-        ignore_reinit_error=bool(head_address is not None),
-        logging_level=logging_level,
-        log_to_driver=os.getenv("RAY_LOG_TO_DRIVER", False),
-    )
+    if not ray.is_initialized():
+        address_info = ray.init(
+            address=head_address,
+            num_cpus=scenario.ray_cluster_cpus if head_address is None else None,
+            num_gpus=scenario.ray_cluster_gpus if head_address is None else None,
+            object_store_memory=object_store_memory_bytes,
+            # _lru_evict=bool(head_address is None),
+            local_mode=False,
+            include_dashboard=include_dashboard,
+            dashboard_host=os.getenv("RAY_DASHBOARD_HOST", None),
+            dashboard_port=dashboard_port,
+            ignore_reinit_error=bool(head_address is not None),
+            logging_level=logging_level,
+            log_to_driver=os.getenv("RAY_LOG_TO_DRIVER", False),
+        )
 
     os_ray_address = os.getenv("RAY_ADDRESS")
 
@@ -50,8 +51,8 @@ def init_ray_for_scenario(
         return None
     else:
         print(
-            f"Created NEW Ray cluster at {address_info['redis_address']} with\n"
+            f"Created NEW Ray cluster at {address_info['address']} with\n"
             f"CPU: {scenario.ray_cluster_cpus}\n"
             f"GPU: {scenario.ray_cluster_gpus}"
         )
-        return address_info["redis_address"]
+        return address_info["address"]

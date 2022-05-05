@@ -15,7 +15,7 @@ from rlapps.rllib_tools.valid_actions_epsilon_greedy import ValidActionsEpsilonG
 GRL_DEFAULT_OPENSPIEL_POKER_DQN_PARAMS = {
     "framework": "torch",
     # Smooth metrics over this many episodes.
-    "metrics_smoothing_episodes": 1000,
+    "metrics_num_episodes_for_smoothing": 1000,
     # === Model ===
     # Number of atoms for representing the distribution of return. When
     # this is greater than 1, distributional Q-learning is used.
@@ -99,7 +99,7 @@ GRL_DEFAULT_OPENSPIEL_POKER_DQN_PARAMS = {
     # Whether to compute priorities on workers.
     "worker_side_prioritization": False,
     # Prevent iterations from going lower than this time span
-    "min_iter_time_s": 0,
+    "min_time_s_per_reporting": 0,
     # Minimum env steps to optimize for per train call. This value does
     # not affect learning (JB: this is a lie!), only the length of train iterations.
     "timesteps_per_iteration": 0,
@@ -175,7 +175,7 @@ GRL_DEFAULT_POKER_PPO_PARAMS = {
     # NOTE: Only supported for PyTorch so far.
     "_use_trajectory_view_api": True,
     # Prevent iterations from going lower than this time span
-    "min_iter_time_s": 0,
+    "min_time_s_per_reporting": 0,
     # Minimum env steps to optimize for per train call. This value does
     # not affect learning (JB: this is a lie!), only the length of train iterations.
     "timesteps_per_iteration": 0,
@@ -222,8 +222,8 @@ GRL_DEFAULT_OSHI_ZUMO_MEDIUM_DQN_PARAMS = {
     "learning_starts": 16000,
     "lr": 0.01,
     "lr_schedule": None,
-    "metrics_smoothing_episodes": 5000,
-    "min_iter_time_s": 0,
+    "metrics_num_episodes_for_smoothing": 5000,
+    "min_time_s_per_reporting": 0,
     "n_step": 1,
     "noisy": False,
     "num_atoms": 1,
@@ -268,8 +268,8 @@ GRL_DEFAULT_OSHI_ZUMO_TINY_DQN_PARAMS = {
     "learning_starts": 16000,
     "lr": 0.01,
     "lr_schedule": None,
-    "metrics_smoothing_episodes": 5000,
-    "min_iter_time_s": 0,
+    "metrics_num_episodes_for_smoothing": 5000,
+    "min_time_s_per_reporting": 0,
     "n_step": 1,
     "noisy": False,
     "num_atoms": 1,

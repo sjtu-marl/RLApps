@@ -159,7 +159,7 @@ if __name__ == "__main__":
         "num_workers": 4,
         "num_envs_per_worker": 32,
         "num_gpus_per_worker": float(os.getenv("WORKER_GPU_NUM", 0.0)),
-        "metrics_smoothing_episodes": 5000,
+        "metrics_num_episodes_for_smoothing": 5000,
         # Number of atoms for representing the distribution of return. When
         # this is greater than 1, distributional Q-learning is used.
         # the discrete supports are bounded by v_min and v_max
@@ -244,7 +244,7 @@ if __name__ == "__main__":
         # Whether to compute priorities on workers.
         "worker_side_prioritization": False,
         # Prevent iterations from going lower than this time span
-        "min_iter_time_s": 0,
+        "min_time_s_per_reporting": 0,
         # Minimum env steps to optimize for per train call. This value does
         # not affect learning (JB: this is a lie!), only the length of train iterations.
         "timesteps_per_iteration": 0,

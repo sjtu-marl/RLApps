@@ -15,9 +15,8 @@ from ray.rllib.models.action_dist import ActionDistribution
 from ray.rllib.models.modelv2 import ModelV2
 from ray.rllib.models.torch.torch_action_dist import TorchCategorical
 from ray.rllib.models.torch.torch_action_dist import TorchDistributionWrapper
-from ray.rllib.policy import Policy
+from ray.rllib.policy import Policy, build_policy_class
 from ray.rllib.policy.sample_batch import SampleBatch
-from ray.rllib.policy.torch_policy_template import build_torch_policy
 from ray.rllib.utils.error import UnsupportedSpaceException
 from ray.rllib.utils.framework import try_import_torch
 from ray.rllib.utils.typing import TensorType, TrainerConfigDict
@@ -101,7 +100,9 @@ def _build_q_models(
         framework=config["framework"],
         name=Q_SCOPE,
     )
-    if torch.cuda.is_available():
+    use_cuda = config["num_gpus"] > 0
+    if use_cuda and torch.cuda.is_available():
+        print("------------------------- fconfig", config)
         policy.q_model = policy.q_model.to("cuda")
 
     policy.target_q_model = ModelCatalog.get_model_v2(
@@ -112,7 +113,7 @@ def _build_q_models(
         framework=config["framework"],
         name=Q_TARGET_SCOPE,
     )
-    if torch.cuda.is_available():
+    if use_cuda and torch.cuda.is_available():
         policy.target_q_model = policy.target_q_model.to("cuda")
 
     policy.q_func_vars = policy.q_model.variables()
@@ -211,8 +212,9 @@ def setup_late_mixins(
     TargetNetworkMixin.__init__(policy, obs_space, action_space, config)
 
 
-SimpleQTorchPolicyPatched = build_torch_policy(
+SimpleQTorchPolicyPatched = build_policy_class(
     name="SimpleQPolicy",
+    framework="torch",
     loss_fn=build_q_losses,
     get_default_config=lambda: ray.rllib.agents.dqn.dqn.DEFAULT_CONFIG,
     after_init=setup_late_mixins,

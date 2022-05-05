@@ -342,7 +342,7 @@ def train_psro_best_response(
         "env": env_class,
         "env_config": env_config,
         "gamma": 1.0,
-        "num_gpus": 0,
+        "num_gpus": 0.2,
         "num_workers": 0,
         "num_envs_per_worker": 1,
         "multiagent": {

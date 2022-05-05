@@ -4,6 +4,7 @@ from typing import Optional, Type, Callable
 import ray
 from ray.rllib.agents.trainer import with_common_config
 from ray.rllib.agents.trainer_template import build_trainer
+from ray.rllib.agents.dqn.dqn import GenericOffPolicyTrainer
 from ray.rllib.evaluation.worker_set import WorkerSet
 from ray.rllib.execution.metric_ops import StandardMetricsReporting
 from ray.rllib.execution.replay_ops import StoreToReplayBuffer
@@ -71,7 +72,7 @@ DEFAULT_CONFIG = with_common_config({
     # you"re using the Async or Ape-X optimizers.
     "num_workers": 0,
     # Prevent iterations from going lower than this time span
-    "min_iter_time_s": 0,
+    "min_time_s_per_reporting": 0,
 })
 
 

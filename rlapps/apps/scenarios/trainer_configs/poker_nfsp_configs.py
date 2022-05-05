@@ -246,7 +246,7 @@ def larger_nfsp_oshi_ppo_params_two_layers_no_valid_actions_model(
     env: MultiAgentEnv,
 ) -> Dict[str, Any]:
     params = nfsp_leduc_dqn_params(env=env)
-    params["metrics_smoothing_episodes"] = 5000
+    params["metrics_num_episodes_for_smoothing"] = 5000
     params["model"]["custom_model"] = None
     params["model"]["fcnet_hiddens"] = [128, 128]
     return params
@@ -256,7 +256,7 @@ def larger_nfsp_oshi_ppo_avg_policy_params_two_layers_no_valid_actions_model(
     env: MultiAgentEnv,
 ) -> Dict[str, Any]:
     params = nfsp_leduc_avg_policy_params(env=env)
-    params["metrics_smoothing_episodes"] = 5000
+    params["metrics_num_episodes_for_smoothing"] = 5000
     params["model"]["custom_model"] = None
     params["model"]["fcnet_hiddens"] = [128, 128]
     return params
@@ -266,7 +266,7 @@ def larger_nfsp_oshi_ppo_params_two_layers_with_valid_actions_model(
     env: MultiAgentEnv,
 ) -> Dict[str, Any]:
     params = nfsp_leduc_dqn_params(env=env)
-    params["metrics_smoothing_episodes"] = 5000
+    params["metrics_num_episodes_for_smoothing"] = 5000
     params["model"]["fcnet_hiddens"] = [128, 128]
     return params
 
@@ -275,6 +275,6 @@ def larger_nfsp_oshi_ppo_avg_policy_params_two_layers_with_valid_actions_model(
     env: MultiAgentEnv,
 ) -> Dict[str, Any]:
     params = nfsp_leduc_avg_policy_params(env=env)
-    params["metrics_smoothing_episodes"] = 5000
+    params["metrics_num_episodes_for_smoothing"] = 5000
     params["model"]["fcnet_hiddens"] = [128, 128]
     return params

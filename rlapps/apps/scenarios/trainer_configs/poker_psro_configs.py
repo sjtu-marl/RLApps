@@ -73,7 +73,7 @@ def psro_leduc_ppo_params(env: MultiAgentEnv) -> Dict[str, Any]:
             "num_workers": 4,
             "num_gpus_per_worker": float(os.getenv("WORKER_GPU_NUM", 0.0)),
             "num_envs_per_worker": 1,
-            "metrics_smoothing_episodes": 20000,
+            "metrics_num_episodes_for_smoothing": 20000,
             "model": merge_dicts(
                 MODEL_DEFAULTS,
                 {
@@ -94,7 +94,7 @@ def psro_oshi_ppo_params(env: MultiAgentEnv) -> Dict[str, Any]:
             "num_workers": 4,
             "num_gpus_per_worker": float(os.getenv("WORKER_GPU_NUM", 0.0)),
             "num_envs_per_worker": 1,
-            "metrics_smoothing_episodes": 5000,
+            "metrics_num_episodes_for_smoothing": 5000,
             "model": merge_dicts(
                 MODEL_DEFAULTS,
                 {

@@ -23,7 +23,7 @@ def attack_and_counter_psro_ppo_params(env: MultiAgentEnv) -> Dict[str, Any]:
             "num_workers": 4,
             "num_gpus_per_worker": float(os.getenv("WORKER_GPU_NUM", 0.0)),
             "num_envs_per_worker": 1,
-            "metrics_smoothing_episodes": 10000,
+            "metrics_num_episodes_for_smoothing": 10000,
             "exploration_config": {
                 # The Exploration class to use. In the simplest case, this is the name
                 # (str) of any class present in the `rllib.utils.exploration` package.
@@ -60,7 +60,7 @@ def loss_game_psro_ppo_params(env: MultiAgentEnv) -> Dict[str, Any]:
             "num_workers": 4,
             "num_gpus_per_worker": float(os.getenv("WORKER_GPU_NUM", 0.0)),
             "num_envs_per_worker": 1,
-            "metrics_smoothing_episodes": 10000,
+            "metrics_num_episodes_for_smoothing": 10000,
             "exploration_config": {
                 # The Exploration class to use. In the simplest case, this is the name
                 # (str) of any class present in the `rllib.utils.exploration` package.
@@ -97,7 +97,7 @@ def loss_game_psro_ppo_params_orig(env: MultiAgentEnv) -> Dict[str, Any]:
             "num_workers": 4,
             "num_gpus_per_worker": float(os.getenv("WORKER_GPU_NUM", 0.0)),
             "num_envs_per_worker": 1,
-            "metrics_smoothing_episodes": 10000,
+            "metrics_num_episodes_for_smoothing": 10000,
             "exploration_config": {
                 # The Exploration class to use. In the simplest case, this is the name
                 # (str) of any class present in the `rllib.utils.exploration` package.
@@ -122,7 +122,7 @@ def loss_game_nfsp_dqn_params(env: MultiAgentEnv) -> Dict[str, Any]:
     return merge_dicts(
         GRL_DEFAULT_OSHI_ZUMO_MEDIUM_DQN_PARAMS,
         {
-            "metrics_smoothing_episodes": 10000,
+            "metrics_num_episodes_for_smoothing": 10000,
             "exploration_config": {
                 "epsilon_timesteps": int(500e6),
                 "final_epsilon": 0.001,
@@ -146,7 +146,7 @@ def loss_game_nfsp_dqn_params(env: MultiAgentEnv) -> Dict[str, Any]:
 
 def loss_game_nfsp_avg_policy_params(env: MultiAgentEnv) -> Dict[str, Any]:
     return {
-        "metrics_smoothing_episodes": 10000,
+        "metrics_num_episodes_for_smoothing": 10000,
         "framework": "torch",
         "num_gpus": float(os.getenv("WORKER_GPU_NUM", 0.0)),
         "num_workers": 0,
@@ -168,7 +168,7 @@ def loss_game_nfsp_dqn_params_orig(env: MultiAgentEnv) -> Dict[str, Any]:
     return merge_dicts(
         GRL_DEFAULT_OSHI_ZUMO_MEDIUM_DQN_PARAMS,
         {
-            "metrics_smoothing_episodes": 10000,
+            "metrics_num_episodes_for_smoothing": 10000,
             "exploration_config": {
                 "epsilon_timesteps": int(500e6),
                 "final_epsilon": 0.001,
@@ -187,7 +187,7 @@ def loss_game_nfsp_dqn_params_orig(env: MultiAgentEnv) -> Dict[str, Any]:
 
 def loss_game_nfsp_avg_policy_params_orig(env: MultiAgentEnv) -> Dict[str, Any]:
     return {
-        "metrics_smoothing_episodes": 10000,
+        "metrics_num_episodes_for_smoothing": 10000,
         "framework": "torch",
         "num_gpus": float(os.getenv("WORKER_GPU_NUM", 0.0)),
         "num_workers": 0,

@@ -458,7 +458,7 @@ def train_off_policy_rl_nfsp(
     )
 
     avg_br_reward_deque = StatDeque.remote(
-        max_items=br_trainer_config["metrics_smoothing_episodes"]
+        max_items=br_trainer_config["metrics_num_episodes_for_smoothing"]
     )
 
     def _set_avg_br_rew_deque(worker: RolloutWorker):

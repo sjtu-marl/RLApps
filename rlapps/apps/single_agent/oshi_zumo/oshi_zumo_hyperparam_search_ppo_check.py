@@ -165,7 +165,7 @@ if __name__ == "__main__":
         "num_workers": 4,
         "num_gpus_per_worker": float(os.getenv("WORKER_GPU_NUM", 0.0)),
         "num_envs_per_worker": 1,
-        "metrics_smoothing_episodes": 5000,
+        "metrics_num_episodes_for_smoothing": 5000,
         # Coefficient of the entropy regularizer.
         "entropy_coeff": 0.0,
         # Decay schedule for the entropy regularizer.

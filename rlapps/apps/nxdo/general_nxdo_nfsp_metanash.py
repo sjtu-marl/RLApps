@@ -473,7 +473,7 @@ def train_off_policy_rl_nfsp_restricted_game(
             }
 
     br_trainer_config[
-        "metrics_smoothing_episodes"
+        "metrics_num_episodes_for_smoothing"
     ] = metrics_smoothing_episodes_override
 
     br_trainer = trainer_class(
@@ -486,7 +486,7 @@ def train_off_policy_rl_nfsp_restricted_game(
     )
 
     avg_br_reward_deque = StatDeque.remote(
-        max_items=br_trainer_config["metrics_smoothing_episodes"]
+        max_items=br_trainer_config["metrics_num_episodes_for_smoothing"]
     )
 
     def _set_avg_br_rew_deque(worker: RolloutWorker):

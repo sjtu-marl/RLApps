@@ -284,6 +284,7 @@ def train_nxdo_best_response(
 
     trainer_config = {
         "env": restricted_game_class,
+        "disable_env_checking": True,
         "env_config": restricted_env_config,
         "gamma": 1.0,
         "num_gpus": 0,

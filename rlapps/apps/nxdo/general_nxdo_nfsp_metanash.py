@@ -191,6 +191,7 @@ def train_off_policy_rl_nfsp_restricted_game(
         {
             "log_level": "DEBUG",
             "framework": "torch",
+            "disable_env_checking": True,
             "env": restricted_game_class,
             "env_config": restricted_env_config,
             "num_gpus": 0.0,
@@ -406,6 +407,7 @@ def train_off_policy_rl_nfsp_restricted_game(
 
     br_trainer_config = {
         "log_level": "DEBUG",
+        "disable_env_checking": True,
         "callbacks": NFSPBestResponseCallbacks,
         "env": restricted_game_class,
         "env_config": restricted_env_config,

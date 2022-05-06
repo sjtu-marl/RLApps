@@ -8,9 +8,9 @@ from ray.rllib.models.modelv2 import ModelV2
 from ray.rllib.models.tf.tf_action_dist import Categorical
 from ray.rllib.models.torch.torch_action_dist import TorchCategorical
 from ray.rllib.models.torch.torch_action_dist import TorchDistributionWrapper
-from ray.rllib.policy.policy import Policy
+from ray.rllib.policy import Policy, build_policy_class
+from ray.rllib.policy.view_requirement import ViewRequirement
 from ray.rllib.policy.sample_batch import SampleBatch
-from ray.rllib.policy import build_policy_class
 from ray.rllib.utils.error import UnsupportedSpaceException
 from ray.rllib.utils.framework import try_import_torch
 from ray.rllib.utils.schedules import ConstantSchedule, PiecewiseSchedule
@@ -203,6 +203,13 @@ def setup_mixins(policy, obs_space, action_space, config):
     ManualLearningRateSchedule.__init__(policy, config["lr"], config["lr_schedule"])
 
 
+def check_view_requirements(policy, obs_space, action_space, config):
+    if SampleBatch.NEXT_OBS not in policy.model.view_requirements:
+        policy.model.view_requirements[SampleBatch.NEXT_OBS] = ViewRequirement(
+            SampleBatch.NEXT_OBS, shift=1, space=obs_space
+        )
+
+
 NFSPTorchAveragePolicy = build_policy_class(
     name="NFSPAveragePolicy",
     framework="torch",
@@ -217,4 +224,5 @@ NFSPTorchAveragePolicy = build_policy_class(
     stats_fn=build_avg_policy_stats,
     mixins=[ManualLearningRateSchedule, SafeSetWeightsPolicyMixin],
     # action_distribution_fn=get_distribution_inputs_and_class,
+    after_init=check_view_requirements,
 )

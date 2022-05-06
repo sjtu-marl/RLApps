@@ -1,4 +1,4 @@
-# import tsinghua conda mirror
+# copy from @VegeWong, import tsinghua conda mirror
 conda config --set show_channel_urls yes
 cat << EOF > $HOME/.condarc
 channels:

@@ -206,21 +206,16 @@ def nxdo_nfsp_measure_exploitability_nonlstm(
 ):
     if open_spiel_env_config is None:
         if poker_game_version in ["kuhn_poker", "leduc_poker"]:
-            open_spiel_env_config = {"players": pyspiel.GameParameter(2)}
+            open_spiel_env_config = {"players": 2}
         elif poker_game_version in ["oshi_zumo_tiny"]:
             poker_game_version = "oshi_zumo"
             open_spiel_env_config = {
-                "coins": pyspiel.GameParameter(6),
-                "size": pyspiel.GameParameter(2),
-                "horizon": pyspiel.GameParameter(8),
+                "coins": 6,
+                "size": 2,
+                "horizon": 8,
             }
         else:
             open_spiel_env_config = {}
-
-    open_spiel_env_config = {
-        k: pyspiel.GameParameter(v) if not isinstance(v, pyspiel.GameParameter) else v
-        for k, v in open_spiel_env_config.items()
-    }
 
     openspiel_game = pyspiel.load_game(poker_game_version, open_spiel_env_config)
 
@@ -259,7 +254,7 @@ def nxdo_snfsp_measure_exploitability_nonlstm(
     poker_game_version: str,
 ):
     if poker_game_version in ["kuhn_poker", "leduc_poker"]:
-        open_spiel_env_config = {"players": pyspiel.GameParameter(2)}
+        open_spiel_env_config = {"players": 2}
     else:
         open_spiel_env_config = {}
 

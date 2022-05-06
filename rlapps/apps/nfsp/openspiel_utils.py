@@ -17,14 +17,11 @@ def nfsp_measure_exploitability_nonlstm(
 ):
     if open_spiel_env_config is None:
         if poker_game_version in ["kuhn_poker", "leduc_poker"]:
-            open_spiel_env_config = {"players": pyspiel.GameParameter(2)}
+            open_spiel_env_config = {"players": 2}
         else:
             open_spiel_env_config = {}
 
-    open_spiel_env_config = {
-        k: pyspiel.GameParameter(v) if not isinstance(v, pyspiel.GameParameter) else v
-        for k, v in open_spiel_env_config.items()
-    }
+    open_spiel_env_config = {k: v for k, v in open_spiel_env_config.items()}
 
     openspiel_game = pyspiel.load_game(poker_game_version, open_spiel_env_config)
     if poker_game_version == "oshi_zumo":

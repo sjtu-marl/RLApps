@@ -22,3 +22,4 @@ gym-minigrid==1.0.3
 networkx==2.8
 pyreap==0.9.1
 open_spiel==1.1.0
+gputil==1.4.0

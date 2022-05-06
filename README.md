@@ -1,2 +1,7 @@
 # RLApps
-RLlib-based collections
+
+RLlib-based algorithm collections
+
+## Documentation
+
+See [Docs](/docs/).

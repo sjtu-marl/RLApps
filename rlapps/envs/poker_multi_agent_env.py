@@ -252,8 +252,6 @@ class PokerMultiAgentEnv(ValidActionsMultiAgentEnv):
             infos (dict): Optional info values for each agent id.
         """
 
-        if len(action_dict) == 0:
-            return {}, {}, {}, {}
         curr_player_id = self.curr_time_step.observations["current_player"]
         legal_actions = self.curr_time_step.observations["legal_actions"][
             curr_player_id

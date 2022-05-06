@@ -102,7 +102,6 @@ def _build_q_models(
     )
     use_cuda = config["num_gpus"] > 0
     if use_cuda and torch.cuda.is_available():
-        print("------------------------- fconfig", config)
         policy.q_model = policy.q_model.to("cuda")
 
     policy.target_q_model = ModelCatalog.get_model_v2(

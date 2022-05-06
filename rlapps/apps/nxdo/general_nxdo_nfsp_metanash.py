@@ -274,8 +274,8 @@ def train_off_policy_rl_nfsp_restricted_game(
                 **kwargs,
             )
 
-            postprocessed_batch["source_policy"] = [policy_id] * len(
-                postprocessed_batch["rewards"]
+            postprocessed_batch["source_policy"] = np.asarray(
+                [policy_id] * len(postprocessed_batch["rewards"])
             )
 
             # All data from both policies will go into the best response's replay buffer.
@@ -319,10 +319,10 @@ def train_off_policy_rl_nfsp_restricted_game(
             assert isinstance(samples, MultiAgentBatch)
 
             for policy_samples in samples.policy_batches.values():
-                if "action_prob" in policy_samples.data:
-                    del policy_samples.data["action_prob"]
-                if "action_logp" in policy_samples.data:
-                    del policy_samples.data["action_logp"]
+                if "action_prob" in policy_samples:
+                    del policy_samples["action_prob"]
+                if "action_logp" in policy_samples:
+                    del policy_samples["action_logp"]
 
             for average_policy_id, br_policy_id in [
                 ("average_policy_0", "best_response_0"),

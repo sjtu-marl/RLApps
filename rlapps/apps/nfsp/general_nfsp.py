@@ -3,7 +3,7 @@ import copy
 import logging
 import os
 import time
-from typing import Any, Tuple, Type, Dict, Union
+from typing import Any, Tuple, Type, Dict, Union, Optional
 
 import deepdish
 import numpy as np
@@ -116,7 +116,10 @@ class StatDeque(object):
 
 
 def train_off_policy_rl_nfsp(
-    results_dir: str, scenario_name: str, print_train_results: bool = True
+    results_dir: str,
+    scenario_name: str,
+    print_train_results: bool = True,
+    debug: bool = False,
 ):
 
     scenario: NFSPScenario = scenario_catalog.get(scenario_name=scenario_name)
@@ -171,8 +174,9 @@ def train_off_policy_rl_nfsp(
 
     avg_trainer_config = merge_dicts(
         {
-            "log_level": "DEBUG",
+            "log_level": "DEBUG" if debug else "INFO",
             "framework": "torch",
+            "disable_env_checking": True,
             "env": env_class,
             "env_config": env_config,
             "num_gpus": 0.0,
@@ -238,8 +242,8 @@ def train_off_policy_rl_nfsp(
                 **kwargs,
             )
 
-            postprocessed_batch.data["source_policy"] = [policy_id] * len(
-                postprocessed_batch.data["rewards"]
+            postprocessed_batch["source_policy"] = np.asarray(
+                [policy_id] * len(postprocessed_batch["rewards"])
             )
 
             # All data from both policies will go into the best response's replay buffer.
@@ -251,9 +255,9 @@ def train_off_policy_rl_nfsp(
                 if policy_id == average_policy_id:
 
                     if "action_probs" in postprocessed_batch:
-                        del postprocessed_batch.data["action_probs"]
+                        del postprocessed_batch["action_probs"]
                     if "behaviour_logits" in postprocessed_batch:
-                        del postprocessed_batch.data["behaviour_logits"]
+                        del postprocessed_batch["behaviour_logits"]
 
                     br_policy: Policy = policies[br_policy_id]
 
@@ -265,10 +269,11 @@ def train_off_policy_rl_nfsp(
                     copy_attributes(src_obj=new_batch, dst_obj=postprocessed_batch)
                 elif policy_id == br_policy_id:
                     if "q_values" in postprocessed_batch:
-                        del postprocessed_batch.data["q_values"]
+                        del postprocessed_batch["q_values"]
                     if "action_probs" in postprocessed_batch:
-                        del postprocessed_batch.data["action_probs"]
-                    del postprocessed_batch.data["action_dist_inputs"]
+                        del postprocessed_batch["action_probs"]
+                    if "action_dist_inputs" in postprocessed_batch:
+                        del postprocessed_batch["action_dist_inputs"]
 
                 if policy_id in ("average_policy_0", "best_response_0"):
                     assert agent_id == 0
@@ -311,10 +316,10 @@ def train_off_policy_rl_nfsp(
             assert isinstance(samples, MultiAgentBatch)
 
             for policy_samples in samples.policy_batches.values():
-                if "action_prob" in policy_samples.data:
-                    del policy_samples.data["action_prob"]
-                if "action_logp" in policy_samples.data:
-                    del policy_samples.data["action_logp"]
+                if "action_prob" in policy_samples.keys():
+                    del policy_samples["action_prob"]
+                if "action_logp" in policy_samples.keys():
+                    del policy_samples["action_logp"]
 
             for average_policy_id, br_policy_id in [
                 ("average_policy_0", "best_response_0"),
@@ -400,8 +405,9 @@ def train_off_policy_rl_nfsp(
                         checkpoint_spec_file.write(avg_pol_checkpoint_spec.to_json())
 
     br_trainer_config = {
-        "log_level": "DEBUG",
+        "log_level": "DEBUG" if debug else "INFO",
         "callbacks": NFSPBestResponseCallbacks,
+        "disable_env_checking": True,
         "env": env_class,
         "env_config": env_config,
         "gamma": 1.0,
@@ -521,6 +527,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--scenario", type=str)
+    parser.add_argument("--debug", action="store_true")
     args = parser.parse_args()
 
     results_dir = os.path.join(os.path.dirname(rlapps.__file__), "data")
@@ -530,4 +537,5 @@ if __name__ == "__main__":
         results_dir=results_dir,
         scenario_name=args.scenario,
         print_train_results=True,
+        debug=args.debug,
     )

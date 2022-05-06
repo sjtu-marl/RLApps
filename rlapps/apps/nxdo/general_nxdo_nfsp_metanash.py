@@ -273,8 +273,8 @@ def train_off_policy_rl_nfsp_restricted_game(
                 **kwargs,
             )
 
-            postprocessed_batch.data["source_policy"] = [policy_id] * len(
-                postprocessed_batch.data["rewards"]
+            postprocessed_batch["source_policy"] = [policy_id] * len(
+                postprocessed_batch["rewards"]
             )
 
             # All data from both policies will go into the best response's replay buffer.
@@ -286,9 +286,9 @@ def train_off_policy_rl_nfsp_restricted_game(
                 if policy_id == average_policy_id:
 
                     if "action_probs" in postprocessed_batch:
-                        del postprocessed_batch.data["action_probs"]
+                        del postprocessed_batch["action_probs"]
                     if "behaviour_logits" in postprocessed_batch:
-                        del postprocessed_batch.data["behaviour_logits"]
+                        del postprocessed_batch["behaviour_logits"]
 
                     br_policy: Policy = policies[br_policy_id]
 
@@ -300,10 +300,11 @@ def train_off_policy_rl_nfsp_restricted_game(
                     copy_attributes(src_obj=new_batch, dst_obj=postprocessed_batch)
                 elif policy_id == br_policy_id:
                     if "q_values" in postprocessed_batch:
-                        del postprocessed_batch.data["q_values"]
+                        del postprocessed_batch["q_values"]
                     if "action_probs" in postprocessed_batch:
-                        del postprocessed_batch.data["action_probs"]
-                    del postprocessed_batch.data["action_dist_inputs"]
+                        del postprocessed_batch["action_probs"]
+                    if "action_dist_inputs" in postprocessed_batch:
+                        del postprocessed_batch["action_dist_inputs"]
 
                 if policy_id in ("average_policy_0", "best_response_0"):
                     assert agent_id == 0
